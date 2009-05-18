@@ -22,20 +22,21 @@ public partial class MainWindow {
     
     private Gtk.ScrolledWindow GtkScrolledWindow;
     
-    private Gtk.TextView textview1;
+    private Gtk.TextView booktextview;
     
     protected virtual void Build() {
         Stetic.Gui.Initialize(this);
         // Widget MainWindow
         this.UIManager = new Gtk.UIManager();
         Gtk.ActionGroup w1 = new Gtk.ActionGroup("Default");
-        this.OpenFileAction = new Gtk.Action("OpenFileAction", Mono.Unix.Catalog.GetString("Open File"), null, null);
+        this.OpenFileAction = new Gtk.Action("OpenFileAction", Mono.Unix.Catalog.GetString("Open File"), null, "gtk-open");
         this.OpenFileAction.ShortLabel = Mono.Unix.Catalog.GetString("Open File");
         w1.Add(this.OpenFileAction, null);
         this.UIManager.InsertActionGroup(w1, 0);
         this.AddAccelGroup(this.UIManager.AccelGroup);
         this.Name = "MainWindow";
-        this.Title = Mono.Unix.Catalog.GetString("MainWindow");
+        this.Title = Mono.Unix.Catalog.GetString("BookReader");
+        this.Icon = Stetic.IconLoader.LoadIcon(this, "stock_book_blue", Gtk.IconSize.Menu, 16);
         this.WindowPosition = ((Gtk.WindowPosition)(4));
         // Container child MainWindow.Gtk.Container+ContainerChild
         this.vbox1 = new Gtk.VBox();
@@ -58,10 +59,15 @@ public partial class MainWindow {
         this.GtkScrolledWindow.Name = "GtkScrolledWindow";
         this.GtkScrolledWindow.ShadowType = ((Gtk.ShadowType)(1));
         // Container child GtkScrolledWindow.Gtk.Container+ContainerChild
-        this.textview1 = new Gtk.TextView();
-        this.textview1.CanFocus = true;
-        this.textview1.Name = "textview1";
-        this.GtkScrolledWindow.Add(this.textview1);
+        this.booktextview = new Gtk.TextView();
+        this.booktextview.CanFocus = true;
+        this.booktextview.Name = "booktextview";
+        this.booktextview.Editable = false;
+        this.booktextview.CursorVisible = false;
+        this.booktextview.WrapMode = ((Gtk.WrapMode)(2));
+        this.booktextview.LeftMargin = 2;
+        this.booktextview.RightMargin = 2;
+        this.GtkScrolledWindow.Add(this.booktextview);
         this.vbox1.Add(this.GtkScrolledWindow);
         Gtk.Box.BoxChild w4 = ((Gtk.Box.BoxChild)(this.vbox1[this.GtkScrolledWindow]));
         w4.Position = 1;
@@ -69,9 +75,10 @@ public partial class MainWindow {
         if ((this.Child != null)) {
             this.Child.ShowAll();
         }
-        this.DefaultWidth = 400;
-        this.DefaultHeight = 300;
+        this.DefaultWidth = 446;
+        this.DefaultHeight = 368;
         this.Show();
         this.DeleteEvent += new Gtk.DeleteEventHandler(this.OnDeleteEvent);
+        this.OpenFileAction.Activated += new System.EventHandler(this.OnOpenFileActionActivated);
     }
 }
