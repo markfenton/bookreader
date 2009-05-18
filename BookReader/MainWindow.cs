@@ -18,8 +18,11 @@
 using System;
 using Gtk;
 using System.IO;
-//using System.Xml;
+using System.Xml;
+using System.Xml.Linq;
 using BookReader;
+using System.Collections;
+using System.Linq;
 
 public partial class MainWindow: Gtk.Window
 {	
@@ -48,12 +51,23 @@ public partial class MainWindow: Gtk.Window
 	
 	protected void CleanupFileStreams()
 	{
-		bookReader.Close();
-		bookFile.Close();
+		try
+		{
+			bookReader.Close();
+			bookFile.Close();
+		}
+		catch
+		{
+			//to be frank I care little if these fail, this just hides the errors if they aren't open ;)
+		}
 	}
 
+	/* Open a new text file */
 	protected virtual void OnOpenFileActionActivated (object sender, System.EventArgs e)
 	{
+		//close any existing files 
+		CleanupFileStreams();
+		
 		FileChooserDialog fileDialog = new FileChooserDialog("Select Book",this,FileChooserAction.Open,
 		                                                     "Cancel",ResponseType.Cancel,
 		                            						"Open",ResponseType.Accept);
@@ -73,13 +87,37 @@ public partial class MainWindow: Gtk.Window
 			//error loading the file - display message and handle	
 		}
 		
+
+		
+		//load the bookmark list and check if we have a match		
+		String bookmarkFileLocation = "bookmarks.xml";
+		
+		try
+		{
+			XDocument xdoc = XDocument.Load(bookmarkFileLocation);
+			XElement root = xdoc.Element("bookreader");	
+		
+			//since i am no good at linq for now we only get the file position
+			var bookmarkList = from bkmark in //dislike this implied type thing
+      							root.Elements("bookmark")
+								where (string) bkmark.Element("fileTitle") == fileDialog.Filename
+      							select (string) bkmark.Element("filePosition");
+		}
+		catch
+		{
+			//couldn't open - maybe check exception and create new file would
+			//be a good idea here
+		}
+		
 		//get rid of file window
 		fileDialog.Destroy();
 
 		//now populate the text display
 		PopulateTextArea();
-	}
+		
+}
 
+	/* Set the bookmark position for this file */
 	protected virtual void OnBookmarkPositionActionActivated (object sender, System.EventArgs e)
 	{
 		Int32 hashcode = bookFile.GetHashCode();
