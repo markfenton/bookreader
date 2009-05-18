@@ -16,6 +16,8 @@ public partial class MainWindow {
     
     private Gtk.Action OpenFileAction;
     
+    private Gtk.Action BookmarkPositionAction;
+    
     private Gtk.VBox vbox1;
     
     private Gtk.Toolbar toolbar1;
@@ -32,6 +34,9 @@ public partial class MainWindow {
         this.OpenFileAction = new Gtk.Action("OpenFileAction", Mono.Unix.Catalog.GetString("Open File"), null, "gtk-open");
         this.OpenFileAction.ShortLabel = Mono.Unix.Catalog.GetString("Open File");
         w1.Add(this.OpenFileAction, null);
+        this.BookmarkPositionAction = new Gtk.Action("BookmarkPositionAction", null, Mono.Unix.Catalog.GetString("Set Bookmark"), "gtk-save-as");
+        this.BookmarkPositionAction.ShortLabel = Mono.Unix.Catalog.GetString("Bookmark Position");
+        w1.Add(this.BookmarkPositionAction, null);
         this.UIManager.InsertActionGroup(w1, 0);
         this.AddAccelGroup(this.UIManager.AccelGroup);
         this.Name = "MainWindow";
@@ -43,7 +48,7 @@ public partial class MainWindow {
         this.vbox1.Name = "vbox1";
         this.vbox1.Spacing = 6;
         // Container child vbox1.Gtk.Box+BoxChild
-        this.UIManager.AddUiFromString("<ui><toolbar name='toolbar1'><toolitem name='OpenFileAction' action='OpenFileAction'/></toolbar></ui>");
+        this.UIManager.AddUiFromString("<ui><toolbar name='toolbar1'><toolitem name='OpenFileAction' action='OpenFileAction'/><toolitem name='BookmarkPositionAction' action='BookmarkPositionAction'/></toolbar></ui>");
         this.toolbar1 = ((Gtk.Toolbar)(this.UIManager.GetWidget("/toolbar1")));
         this.toolbar1.Name = "toolbar1";
         this.toolbar1.ShowArrow = false;
@@ -80,5 +85,6 @@ public partial class MainWindow {
         this.Show();
         this.DeleteEvent += new Gtk.DeleteEventHandler(this.OnDeleteEvent);
         this.OpenFileAction.Activated += new System.EventHandler(this.OnOpenFileActionActivated);
+        this.BookmarkPositionAction.Activated += new System.EventHandler(this.OnBookmarkPositionActionActivated);
     }
 }

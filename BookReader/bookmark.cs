@@ -16,18 +16,18 @@
 // 
 
 using System;
-using Gtk;
 
 namespace BookReader
 {
-	class MainClass
+	
+	
+	public class bookmark
 	{
-		public static void Main (string[] args)
-		{
-			Application.Init ();
-			MainWindow win = new MainWindow ();
-			win.Show ();
-			Application.Run ();
-		}
+		public Int32 filePosition;
+		public String fileTitle;
+		public Int32 fileHash; //since the title might change if they move the file and we want to be clever!
+		
 	}
+	
+	
 }

@@ -17,6 +17,14 @@
         <property name="StockId">gtk-open</property>
         <signal name="Activated" handler="OnOpenFileActionActivated" />
       </action>
+      <action id="BookmarkPositionAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="ShortLabel" translatable="yes">Bookmark Position</property>
+        <property name="StockId">gtk-save-as</property>
+        <property name="Tooltip" translatable="yes">Set Bookmark</property>
+        <signal name="Activated" handler="OnBookmarkPositionActionActivated" />
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">BookReader</property>
@@ -35,6 +43,7 @@
             <property name="IconSize">LargeToolbar</property>
             <node name="toolbar1" type="Toolbar">
               <node type="Toolitem" action="OpenFileAction" />
+              <node type="Toolitem" action="BookmarkPositionAction" />
             </node>
           </widget>
           <packing>
